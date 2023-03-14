@@ -40,6 +40,9 @@ public class updateActivity extends AppCompatActivity {
         }
         updateButton.setOnClickListener(view -> {
             MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(updateActivity.this);
+            title = title2.getText().toString().trim();
+            author = author2.getText().toString().trim();
+            pages = pages2.getText().toString().trim();
             myDatabaseHelper.updateData(id, title, author, pages);
         });
 
@@ -72,19 +75,13 @@ public class updateActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete " + title + " ?");
         builder.setMessage("Are you sure you want to delete " + title + " ?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(updateActivity.this);
-                myDatabaseHelper.deleteOneRow(id);
-                finish();
-            }
+        builder.setPositiveButton("Yes", (dialogInterface, i) -> {
+            MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(updateActivity.this);
+            myDatabaseHelper.deleteOneRow(id);
+            finish();
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+        builder.setNegativeButton("No", (dialogInterface, i) -> {
 
-            }
         });
         builder.create().show();
     }

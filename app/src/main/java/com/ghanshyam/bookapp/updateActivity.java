@@ -1,8 +1,15 @@
 package com.ghanshyam.bookapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +19,7 @@ public class updateActivity extends AppCompatActivity {
 
 
     EditText title2, author2, pages2;
-    Button updateButton;
+    Button updateButton, deleteBtn;
     String id, title, author, pages;
 
     @Override
@@ -24,13 +31,24 @@ public class updateActivity extends AppCompatActivity {
         author2 = findViewById(R.id.author_input2);
         pages2 = findViewById(R.id.pages_input2);
         updateButton = findViewById(R.id.update_button);
+        deleteBtn = findViewById(R.id.delete_button);
         getIntentData();
+
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setTitle(title);
+        }
         updateButton.setOnClickListener(view -> {
             MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(updateActivity.this);
             myDatabaseHelper.updateData(id, title, author, pages);
         });
 
-
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmDialog();
+            }
+        });
     }
 
     void getIntentData() {
@@ -46,7 +64,30 @@ public class updateActivity extends AppCompatActivity {
             pages2.setText(pages);
 
         } else {
-            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
         }
     }
+
+    void confirmDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete " + title + " ?");
+        builder.setMessage("Are you sure you want to delete " + title + " ?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(updateActivity.this);
+                myDatabaseHelper.deleteOneRow(id);
+                finish();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.create().show();
+    }
+
+
 }

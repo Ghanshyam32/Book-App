@@ -55,13 +55,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.book_pages_text.setText(String.valueOf(book_pages.get(position)));
 
         holder.mainLayout.setOnClickListener(view -> {
-            Intent intent = new Intent(context, updateActivity.class);
-            intent.putExtra("id", String.valueOf(book_id.get(position)));
-            intent.putExtra("title", String.valueOf(book_title.get(position)));
-            intent.putExtra("author", String.valueOf(book_author.get(position)));
-            intent.putExtra("pages", String.valueOf(book_pages.get(position)));
-            activity.startActivityForResult(intent, 1);
-        }
+                    Intent intent = new Intent(context, updateActivity.class);
+                    intent.putExtra("id", String.valueOf(book_id.get(position)));
+                    intent.putExtra("title", String.valueOf(book_title.get(position)));
+                    intent.putExtra("author", String.valueOf(book_author.get(position)));
+                    intent.putExtra("pages", String.valueOf(book_pages.get(position)));
+                    activity.startActivityForResult(intent, 1);
+                }
         );
     }
 
